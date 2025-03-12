@@ -84,7 +84,7 @@ def runs():
         train_ratio=0.7,
         val_ratio=0.2,
         test_ratio=0.1,
-        seed=42  # 固定随机种子确保可重复性
+        seed=34  # 固定随机种子确保可重复性
     )
 
     root_path = r"dataset\stage1\train"

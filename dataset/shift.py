@@ -91,7 +91,7 @@ def runs():
         test_dir="dataset/test",
         train_ratio=0.9,
         test_ratio=0.1,
-        seed=42
+        seed=66
     )
 
     root_path = r"dataset\stage1"
