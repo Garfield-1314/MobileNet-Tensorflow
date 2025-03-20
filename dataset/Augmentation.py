@@ -254,7 +254,7 @@ def YASUO_80(rootpath,savepath):
 
             img_i = cv2.imread(file_i_path)
 
-            img_yasuo = compress_img_CV(img_i,compress_rate=0.06)
+            img_yasuo = compress_img_CV(img_i,compress_rate=0.07)
             cv2.imwrite(os.path.join(save_path, file_i[:-4] + "_80.jpg"),img_yasuo)
 ####################压缩图片###########################################
 ####################压缩图片###########################################
@@ -419,7 +419,7 @@ def hue_image(rootpath,savepath):
 
 def runs():
 
-    root_path = r"dataset\N_ROTE"
+    root_path = r"dataset\Origin"
 
     save_path = r"dataset\N_DB"
 
