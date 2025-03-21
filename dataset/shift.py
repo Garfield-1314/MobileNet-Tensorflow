@@ -87,8 +87,8 @@ def runs():
     #     seed=34  # 固定随机种子确保可重复性
     # )
 
-    root_path = r"dataset\test"
-    save_path= r"dataset\test"
+    root_path = r"dataset\train"
+    save_path= r"dataset\train3"
     # Au.YASUO_80(root_path,save_path)
     
 
@@ -98,7 +98,7 @@ def runs():
 
     # # root_path = r"dataset\stage1\train"
     # # save_path = r"dataset\stage2\train"
-    Au.D_dan_B(root_path,save_path)
+    # Au.D_dan_B(root_path,save_path)
 
 
 

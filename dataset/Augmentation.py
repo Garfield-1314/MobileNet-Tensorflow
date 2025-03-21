@@ -419,13 +419,13 @@ def hue_image(rootpath,savepath):
 
 def runs():
 
-    root_path = r"dataset\Origin"
+    root_path = r"dataset\test"
 
-    save_path = r"dataset\N_DB"
+    save_path = r"dataset\test"
 
     # YASUO_80(root_path,save_path)
     # Rotate_90_180_270(root_path,save_path)
-    D_dan_B(root_path,save_path)
+    # D_dan_B(root_path,save_path)
 
     # YASUO_80(root_path,save_path)   #图像压缩---任意比例
 
@@ -442,7 +442,7 @@ def runs():
     # Contrast_image(root_path,save_path)    #图像对比度扰动---可任意参数
 
     # save_path = r"dataset/hsv"
-    # hsv_image(root_path,save_path)         #图像饱和度扰动---可任意参数
+    hsv_image(root_path,save_path)         #图像饱和度扰动---可任意参数
 
     # save_path = r"dataset/GS"
     # G_and_S(root_path,save_path)           #图像高斯和椒盐噪声扰动---可任意参数
