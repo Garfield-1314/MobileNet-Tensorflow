@@ -74,53 +74,15 @@ def split_dataset(source_dir, target_dir, train_ratio=0.7, val_ratio=0.2, test_r
              f"{len(test_files)} 测试")
 
 
-import Augmentation as Au
-
 def runs():
-    # 使用示例
-    # split_dataset(
-    #     source_dir="dataset/COVER",
-    #     target_dir="dataset",
-    #     train_ratio=0.9,
-    #     val_ratio=0.0,
-    #     test_ratio=0.1,
-    #     seed=34  # 固定随机种子确保可重复性
-    # )
-
-    root_path = r"dataset\train"
-    save_path= r"dataset\train3"
-    # Au.YASUO_80(root_path,save_path)
-    
-
-    # # root_path = r"dataset\stage2\train"
-    # # save_path = r"dataset\stage3\train"
-    # Au.Rotate_90_180_270(root_path,save_path)
-
-    # # root_path = r"dataset\stage1\train"
-    # # save_path = r"dataset\stage2\train"
-    # Au.D_dan_B(root_path,save_path)
-
-
-
-    # root_path = r"dataset\stage1\val"
-    # save_path = r"dataset\stage2\val"
-    # Au.YASUO_80(root_path,save_path)
-    
-
-    # root_path = r"dataset\stage2\val"
-    # save_path = r"dataset\stage2\val"
-    # Au.Rotate_90_180_270(root_path,save_path)
-
-    # root_path = r"dataset\stage2\val"
-    # save_path = r"dataset\stage3\val"
-    # Au.D_dan_B(root_path,save_path)
-
-    # root_path = r"dataset\stage1\test"
-    # save_path = r"dataset\stage1\test"
-    # Au.YASUO_80(root_path,save_path)
-    # Au.Rotate_90_180_270(root_path,save_path)
-    # Au.D_dan_B(root_path,save_path)
-
+    split_dataset(
+        source_dir="dataset/COVER",
+        target_dir="dataset",
+        train_ratio=0.9,
+        val_ratio=0.0,
+        test_ratio=0.1,
+        seed=34  # 固定随机种子确保可重复性
+    )
 
 if __name__ == "__main__":
     runs()
