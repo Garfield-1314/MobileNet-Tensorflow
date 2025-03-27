@@ -92,7 +92,7 @@ history_stage1 = model.fit(train_dataset,
      
 # -------------------------------- 第二阶段训练 ---------------------------------
 # 🔹 数据集路径
-base_dir = './dataset'
+base_dir = './dataset'  
 train_dir = os.path.join(base_dir, '80')
 valid_dir = os.path.join(base_dir, '80')
 

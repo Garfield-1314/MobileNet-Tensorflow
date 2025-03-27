@@ -510,11 +510,11 @@ def pixelate_image(rootpath, savepath, pixel_size=10):
 #     cv2.waitKey(0)
 
 def runs():
-    root_path = r"dataset\example"
+    root_path = r"dataset\test"
 
-    save_path = r"dataset\80"
+    save_path = r"dataset\test"
     
-    YASUO_80(root_path,save_path,target_width=96, target_height=96)
+    # YASUO_80(root_path,save_path,target_width=128, target_height=128)
     # Rotate_90_180_270(root_path,save_path)
     # D_dan_B(root_path,save_path)
 
@@ -527,7 +527,7 @@ def runs():
     # hue_image(root_path,save_path)    #图像色调扰动---可任意参数
 
     # save_path = r"dataset/D_B"
-    # D_dan_B(root_path,save_path)    #图像明暗扰动---可任意参数
+    D_dan_B(root_path,save_path)    #图像明暗扰动---可任意参数
 
     # save_path = r"dataset/Cont"
     # Contrast_image(root_path,save_path)    #图像对比度扰动---可任意参数
