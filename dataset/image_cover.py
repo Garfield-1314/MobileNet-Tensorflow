@@ -103,7 +103,7 @@ if __name__ == '__main__':
     for i in range(2):
         batch_overlay(
             backgrounds_dir=r'dataset\background', 
-            pics_root=r'dataset\224_au',
+            pics_root=r'dataset\96',
             output_root=r'dataset\COVER',
             min_scale=0.8,  # 可调节参数
             max_scale=1.2   # 缩放范围 50%-150%

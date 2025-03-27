@@ -7,9 +7,9 @@ from albumentations import (
 from tqdm import tqdm
 
 # 配置参数
-input_dir = r"dataset\224"        # 输入图片根目录（包含子文件夹）
-output_dir = r"dataset\224_au"   # 输出图片根目录
-num_augments = 10                  # 每张图片生成多少个增强版本
+input_dir = r"dataset\COVER"        # 输入图片根目录（包含子文件夹）
+output_dir = r"dataset\COVER_au"   # 输出图片根目录
+num_augments = 20                  # 每张图片生成多少个增强版本
 
 # 创建输出目录
 os.makedirs(output_dir, exist_ok=True)

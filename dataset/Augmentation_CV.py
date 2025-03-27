@@ -280,7 +280,7 @@ def YASUO_80(rootpath, savepath, target_width=800, target_height=600):
             save_file_name = f"{base_name}_80.jpg"
             save_file_path = os.path.join(save_path, save_file_name)
             cv2.imwrite(save_file_path, img_yasuo)
-            print(f"图像已保存到: {save_file_path}")
+            # print(f"图像已保存到: {save_file_path}")
 ####################压缩图片###########################################
 ####################压缩图片###########################################
 ####################压缩图片###########################################
@@ -512,9 +512,9 @@ def pixelate_image(rootpath, savepath, pixel_size=10):
 def runs():
     root_path = r"dataset\O"
 
-    save_path = r"dataset\224"
+    save_path = r"dataset\96"
     
-    YASUO_80(root_path,save_path,target_width=224, target_height=224)
+    YASUO_80(root_path,save_path,target_width=96, target_height=96)
     # Rotate_90_180_270(root_path,save_path)
     # D_dan_B(root_path,save_path)
 
