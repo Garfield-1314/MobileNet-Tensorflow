@@ -76,12 +76,12 @@ def split_dataset(source_dir, target_dir, train_ratio=0.7, val_ratio=0.2, test_r
 
 def runs():
     split_dataset(
-        source_dir="dataset/224_au",
+        source_dir="dataset/O",
         target_dir="dataset",
-        train_ratio=0.9,
-        val_ratio=0.0,
+        train_ratio=0.7,
+        val_ratio=0.2,
         test_ratio=0.1,
-        seed=34  # 固定随机种子确保可重复性
+        seed=12  # 固定随机种子确保可重复性
     )
 
 if __name__ == "__main__":
