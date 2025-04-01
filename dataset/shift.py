@@ -76,7 +76,7 @@ def split_dataset(source_dir, target_dir, train_ratio=0.7, val_ratio=0.2, test_r
 
 def runs():
     split_dataset(
-        source_dir="dataset/O",
+        source_dir="dataset/al",
         target_dir="dataset",
         train_ratio=0.7,
         val_ratio=0.2,

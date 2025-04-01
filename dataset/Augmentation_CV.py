@@ -240,7 +240,7 @@ def compress_img_CV(img, target_width=800, target_height=600):
     img_resize = cv2.resize(img, (target_width, target_height), interpolation=cv2.INTER_AREA)
     return img_resize
 
-def YASUO_80(rootpath, savepath, target_width=800, target_height=600):
+def YASUO(rootpath, savepath, target_width=800, target_height=600):
     """
     遍历指定目录下的所有图片文件，将其缩放到固定大小并保存到目标目录
     :param rootpath: 源图片目录
@@ -514,7 +514,7 @@ def runs():
 
     save_path = r"dataset\96"
     
-    YASUO_80(root_path,save_path,target_width=96, target_height=96)
+    YASUO(root_path,save_path,target_width=96, target_height=96)
     # Rotate_90_180_270(root_path,save_path)
     # D_dan_B(root_path,save_path)
 

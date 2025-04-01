@@ -7,9 +7,9 @@ from albumentations import (
 from tqdm import tqdm
 
 # 配置参数
-input_dir = r"dataset\COVER"        # 输入图片根目录（包含子文件夹）
-output_dir = r"dataset\COVER_au"   # 输出图片根目录
-num_augments = 20                  # 每张图片生成多少个增强版本
+input_dir = r"dataset\96"        # 输入图片根目录（包含子文件夹）
+output_dir = r"dataset\al"   # 输出图片根目录
+num_augments = 4 - 1                   # 每张图片生成多少个增强版本
 
 # 创建输出目录
 os.makedirs(output_dir, exist_ok=True)
@@ -51,8 +51,8 @@ for root, dirs, files in os.walk(input_dir):
         image = cv2.imread(img_path)
         
         # 保存原始图片（可选）
-        # original_output = os.path.join(current_output_dir, f"original_{filename}")
-        # cv2.imwrite(original_output, image)
+        original_output = os.path.join(current_output_dir, f"original_{filename}")
+        cv2.imwrite(original_output, image)
         
         # 生成多个增强版本
         for i in range(num_augments):

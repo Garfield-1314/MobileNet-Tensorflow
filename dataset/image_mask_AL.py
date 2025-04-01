@@ -1,7 +1,14 @@
 import os
 import random
+import cv2
+import numpy as np
 from PIL import Image
 from datetime import datetime
+from albumentations import (
+    Compose, HorizontalFlip, Rotate,
+    RGBShift, RandomBrightnessContrast, MotionBlur,
+    VerticalFlip, HueSaturationValue, ElasticTransform, OpticalDistortion
+)
 
 def find_images(root_dir):
     """递归查找所有子目录中的图片文件"""
@@ -11,19 +18,32 @@ def find_images(root_dir):
             if f.lower().endswith(img_ext):
                 yield os.path.join(dirpath, f)
 
-def batch_overlay(backgrounds_dir=r'dataset\background', 
-                 pics_root=r'dataset\stage2',
-                 output_root=r'dataset\stage3',
-                 min_scale=0.3,  # 新增缩放参数
-                 max_scale=1.7):
-    """
-    支持缩放、旋转和位置调整的批量处理
-    """
-    
+# 定义数据增强管道
+augmentation_pipeline = Compose([
+    HorizontalFlip(p=0.5),
+    VerticalFlip(p=0.5),
+    ElasticTransform(),
+    OpticalDistortion(),
+    Rotate(limit=45, p=0.5),
+    RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.2),
+    RandomBrightnessContrast(p=0.3, brightness_limit=(-0.25,0.25), contrast_limit=(-0.25,0.25)),
+    HueSaturationValue(),
+    MotionBlur(p=0.5,blur_limit=3),
+])
+
+def batch_overlay(
+    backgrounds_dir=r'dataset\background',
+    pics_root=r'dataset\stage2',
+    output_root=r'dataset\stage3',
+    min_scale=0.3,
+    max_scale=1.7,
+    min_visible=0.75,
+    num_augments=3  # 新增增强次数参数
+):
     # 获取所有背景和小图路径
     bg_paths = list(find_images(backgrounds_dir))
     pic_paths = list(find_images(pics_root))
-    
+
     # 处理每个组合
     for bg_path in bg_paths:
         try:
@@ -36,22 +56,14 @@ def batch_overlay(backgrounds_dir=r'dataset\background',
                 rel_path = os.path.relpath(pic_path, pics_root)
                 output_dir = os.path.join(output_root, os.path.dirname(rel_path))
                 os.makedirs(output_dir, exist_ok=True)
-                
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S%f")
-                pic_name = os.path.splitext(os.path.basename(pic_path))[0]
-                output_name = f"{bg_name}_{pic_name}_{timestamp}.jpg"
-                output_path = os.path.join(output_dir, output_name)
-                
+
                 try:
                     # 加载并处理小图
                     small_img = Image.open(pic_path).convert('RGBA')
                     
-                    # 随机缩放（保持宽高比）
+                    # 随机缩放
                     scale = random.uniform(min_scale, max_scale)
-                    new_size = (
-                        int(small_img.width * scale),
-                        int(small_img.height * scale)
-                    )
+                    new_size = (int(small_img.width * scale), int(small_img.height * scale))
                     scaled_img = small_img.resize(new_size, Image.LANCZOS)
                     
                     # 随机旋转
@@ -64,10 +76,9 @@ def batch_overlay(backgrounds_dir=r'dataset\background',
                     )
                     rw, rh = rotated_img.size
                     
-                    # 智能定位（至少75%可见）
+                    # 智能定位
                     valid_pos = False
                     for _ in range(100):
-                        # 动态计算位置范围
                         x_min = max(-int(rw * 0.3), -rw + int(bg_w * 0.25))
                         x_max = min(bg_w - int(rw * 0.7), bg_w - int(rw * 0.25))
                         y_min = max(-int(rh * 0.3), -rh + int(bg_h * 0.25))
@@ -76,35 +87,52 @@ def batch_overlay(backgrounds_dir=r'dataset\background',
                         x = random.randint(x_min, x_max)
                         y = random.randint(y_min, y_max)
                         
-                        # 计算可见区域
                         visible_w = min(x+rw, bg_w) - max(x, 0)
                         visible_h = min(y+rh, bg_h) - max(y, 0)
                         if visible_w > 0 and visible_h > 0:
                             visible_area = visible_w * visible_h
-                            if visible_area >= 0.75 * rw * rh:
+                            if visible_area >= min_visible * rw * rh:
                                 valid_pos = True
                                 break
-                    
-                    # 合成图像
+
+                    # 合成基础图像
                     composite = Image.new('RGBA', (bg_w, bg_h))
                     composite.paste(base_img, (0,0))
                     composite.alpha_composite(rotated_img, (x, y))
-                    composite.convert('RGB').save(output_path)
+                    rgb_composite = composite.convert('RGB')
                     
-                    print(f"生成成功：{output_path}")
+                    # 转换为OpenCV格式
+                    cv_image = cv2.cvtColor(np.array(rgb_composite), cv2.COLOR_RGB2BGR)
                     
+                    # 生成多个增强版本
+                    for aug_idx in range(num_augments):
+                        # 应用数据增强
+                        augmented = augmentation_pipeline(image=cv_image)
+                        augmented_img = augmented['image']
+                        
+                        # 生成唯一文件名
+                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S%f")
+                        pic_name = os.path.splitext(os.path.basename(pic_path))[0]
+                        output_name = f"{bg_name}_{pic_name}_{timestamp}_aug{aug_idx}.jpg"
+                        output_path = os.path.join(output_dir, output_name)
+                        
+                        # 保存增强后的图像
+                        cv2.imwrite(output_path, augmented_img)
+                        print(f"生成成功：{output_path}")
+
                 except Exception as e:
-                    print(f"小图处理失败：{pic_path} | 错误：{str(e)}")
+                    print(f"处理失败：{pic_path} | 错误：{str(e)}")
                 
         except Exception as e:
             print(f"背景图处理失败：{bg_path} | 错误：{str(e)}")
 
 if __name__ == '__main__':
-    for i in range(2):
-        batch_overlay(
-            backgrounds_dir=r'dataset\background', 
-            pics_root=r'dataset\96',
-            output_root=r'dataset\COVER',
-            min_scale=0.8,  # 可调节参数
-            max_scale=1.2   # 缩放范围 50%-150%
-        )
+    batch_overlay(
+        backgrounds_dir=r'dataset\background',
+        pics_root=r'dataset\96',
+        output_root=r'dataset\Au',
+        min_scale=0.8,
+        max_scale=1.2,
+        min_visible=0.5,
+        num_augments=5
+    )
