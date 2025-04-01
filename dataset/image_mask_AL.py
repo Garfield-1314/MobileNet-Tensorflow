@@ -20,15 +20,18 @@ def find_images(root_dir):
 
 # 定义数据增强管道
 augmentation_pipeline = Compose([
-    HorizontalFlip(p=0.5),
-    VerticalFlip(p=0.5),
-    ElasticTransform(),
-    OpticalDistortion(),
+    HorizontalFlip(p=0.25),
+    VerticalFlip(p=0.25),
+    ElasticTransform(p=0.25,alpha=1, sigma=20),
+    OpticalDistortion(p=0.25,distort_limit=0.1, shift_limit=0.1),
     Rotate(limit=45, p=0.5),
-    RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.2),
-    RandomBrightnessContrast(p=0.3, brightness_limit=(-0.25,0.25), contrast_limit=(-0.25,0.25)),
-    HueSaturationValue(),
-    MotionBlur(p=0.5,blur_limit=3),
+    RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=0.25),
+    RandomBrightnessContrast(p=1,brightness_limit=(-0.25,0.25),contrast_limit=(-0.10,0.10)),
+    HueSaturationValue( hue_shift_limit = (-10, 10),
+                        sat_shift_limit = (-10, 10),
+                        val_shift_limit = (-10, 10),
+                        p=0.25),
+    MotionBlur(p=0.25,blur_limit = 3),
 ])
 
 def batch_overlay(
