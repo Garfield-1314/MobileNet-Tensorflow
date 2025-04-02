@@ -137,5 +137,5 @@ if __name__ == '__main__':
         min_scale=0.8,
         max_scale=1.2,
         min_visible=0.5,
-        num_augments=5
+        num_augments=100
     )

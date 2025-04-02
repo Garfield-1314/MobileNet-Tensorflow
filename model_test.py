@@ -4,7 +4,7 @@ import numpy as np
 import os
 from tqdm import tqdm
 # 加载量化后的TFLite模型
-model_path = './model/qat_model_20250401_1748.tflite'
+model_path = './model/qat_model_20250402_1718.tflite'
 interpreter = tf.lite.Interpreter(model_path)
 interpreter.allocate_tensors()
 if 'GPU' in tf.config.list_physical_devices():
