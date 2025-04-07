@@ -263,8 +263,6 @@ def YASUO(rootpath, savepath, target_width=800, target_height=600):
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
                 print(f"目录 {save_path} 创建成功！")
-            # else:
-            #     print(f"目录 {save_path} 已存在，无需创建。")
 
             # 读取图像
             img_i = cv2.imread(file_i_path)
@@ -277,7 +275,7 @@ def YASUO(rootpath, savepath, target_width=800, target_height=600):
 
             # 保存缩放后的图像
             base_name = os.path.splitext(file_i)[0]  # 获取文件名（不含扩展名）
-            save_file_name = f"{base_name}_80.jpg"
+            save_file_name = f"{base_name}_{target_width}x{target_height}.jpg"  # 修改此处
             save_file_path = os.path.join(save_path, save_file_name)
             cv2.imwrite(save_file_path, img_yasuo)
             # print(f"图像已保存到: {save_file_path}")
