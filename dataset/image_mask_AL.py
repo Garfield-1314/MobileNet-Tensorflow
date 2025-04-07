@@ -61,54 +61,55 @@ def batch_overlay(
                 os.makedirs(output_dir, exist_ok=True)
 
                 try:
-                    # 加载并处理小图
-                    small_img = Image.open(pic_path).convert('RGBA')
-                    
-                    # 随机缩放
-                    scale = random.uniform(min_scale, max_scale)
-                    new_size = (int(small_img.width * scale), int(small_img.height * scale))
-                    scaled_img = small_img.resize(new_size, Image.LANCZOS)
-                    
-                    # 随机旋转
-                    angle = random.uniform(0, 360)
-                    rotated_img = scaled_img.rotate(
-                        angle,
-                        expand=True,
-                        resample=Image.BICUBIC,
-                        fillcolor=(0, 0, 0, 0)
-                    )
-                    rw, rh = rotated_img.size
-                    
-                    # 智能定位
-                    valid_pos = False
-                    for _ in range(100):
-                        x_min = max(-int(rw * 0.3), -rw + int(bg_w * 0.25))
-                        x_max = min(bg_w - int(rw * 0.7), bg_w - int(rw * 0.25))
-                        y_min = max(-int(rh * 0.3), -rh + int(bg_h * 0.25))
-                        y_max = min(bg_h - int(rh * 0.7), bg_h - int(rh * 0.25))
-                        
-                        x = random.randint(x_min, x_max)
-                        y = random.randint(y_min, y_max)
-                        
-                        visible_w = min(x+rw, bg_w) - max(x, 0)
-                        visible_h = min(y+rh, bg_h) - max(y, 0)
-                        if visible_w > 0 and visible_h > 0:
-                            visible_area = visible_w * visible_h
-                            if visible_area >= min_visible * rw * rh:
-                                valid_pos = True
-                                break
-
-                    # 合成基础图像
-                    composite = Image.new('RGBA', (bg_w, bg_h))
-                    composite.paste(base_img, (0,0))
-                    composite.alpha_composite(rotated_img, (x, y))
-                    rgb_composite = composite.convert('RGB')
-                    
-                    # 转换为OpenCV格式
-                    cv_image = cv2.cvtColor(np.array(rgb_composite), cv2.COLOR_RGB2BGR)
-                    
-                    # 生成多个增强版本
                     for aug_idx in range(num_augments):
+                        # 加载并处理小图
+                        small_img = Image.open(pic_path).convert('RGBA')
+                        
+                        # 随机缩放
+                        scale = random.uniform(min_scale, max_scale)
+                        new_size = (int(small_img.width * scale), int(small_img.height * scale))
+                        scaled_img = small_img.resize(new_size, Image.LANCZOS)
+                        
+                        # 随机旋转
+                        angle = random.uniform(0, 360)
+                        rotated_img = scaled_img.rotate(
+                            angle,
+                            expand=True,
+                            resample=Image.BICUBIC,
+                            fillcolor=(0, 0, 0, 0)
+                        )
+                        rw, rh = rotated_img.size
+                        
+                        # 智能定位
+                        valid_pos = False
+                        for _ in range(100):
+                            x_min = max(-int(rw * 0.3), -rw + int(bg_w * 0.25))
+                            x_max = min(bg_w - int(rw * 0.7), bg_w - int(rw * 0.25))
+                            y_min = max(-int(rh * 0.3), -rh + int(bg_h * 0.25))
+                            y_max = min(bg_h - int(rh * 0.7), bg_h - int(rh * 0.25))
+                            
+                            x = random.randint(x_min, x_max)
+                            y = random.randint(y_min, y_max)
+                            
+                            visible_w = min(x+rw, bg_w) - max(x, 0)
+                            visible_h = min(y+rh, bg_h) - max(y, 0)
+                            if visible_w > 0 and visible_h > 0:
+                                visible_area = visible_w * visible_h
+                                if visible_area >= min_visible * rw * rh:
+                                    valid_pos = True
+                                    break
+
+                        # 合成基础图像
+                        composite = Image.new('RGBA', (bg_w, bg_h))
+                        composite.paste(base_img, (0,0))
+                        composite.alpha_composite(rotated_img, (x, y))
+                        rgb_composite = composite.convert('RGB')
+                        
+                        # 转换为OpenCV格式
+                        cv_image = cv2.cvtColor(np.array(rgb_composite), cv2.COLOR_RGB2BGR)
+                        
+                        # 生成多个增强版本
+                        
                         # 应用数据增强
                         augmented = augmentation_pipeline(image=cv_image)
                         augmented_img = augmented['image']
