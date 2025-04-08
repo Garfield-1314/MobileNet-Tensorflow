@@ -134,9 +134,9 @@ if __name__ == '__main__':
     batch_overlay(
         backgrounds_dir=r'dataset\background',
         pics_root=r'dataset\96',
-        output_root=r'dataset\Au',
+        output_root=r'dataset\test',
         min_scale=0.8,
         max_scale=1.2,
         min_visible=0.5,
-        num_augments=100
+        num_augments=10
     )

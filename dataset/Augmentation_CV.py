@@ -253,7 +253,6 @@ def YASUO(rootpath, savepath, target_width=800, target_height=600):
         for file_i in c:
             file_i_path = os.path.join(a, file_i)
             print(f"处理文件: {file_i_path}")
-            
             # 获取文件所在目录名
             split = os.path.split(file_i_path)
             dir_loc = os.path.split(split[0])[1]
