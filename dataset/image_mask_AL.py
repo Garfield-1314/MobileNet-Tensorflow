@@ -20,13 +20,13 @@ def find_images(root_dir):
 
 # 定义数据增强管道
 augmentation_pipeline = Compose([
-    HorizontalFlip(p=0.25),
-    VerticalFlip(p=0.25),
-    ElasticTransform(p=0.25,alpha=1, sigma=20),
-    OpticalDistortion(p=0.25,distort_limit=0.1, shift_limit=0.1),
-    Rotate(limit=45, p=0.5),
+    # HorizontalFlip(p=0.25),
+    # VerticalFlip(p=0.25),
+    ElasticTransform(p=0.5,alpha=1, sigma=20),
+    OpticalDistortion(p=0.5,distort_limit=(-0.25,0.25), shift_limit=(-0.25,0.25)),
+    Rotate(limit=(-30,30), p=0.5),
     RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=0.25),
-    RandomBrightnessContrast(p=1,brightness_limit=(-0.25,0.25),contrast_limit=(-0.10,0.10)),
+    RandomBrightnessContrast(p=1,brightness_limit=(-0.5,0.5),contrast_limit=(-0.10,0.10)),
     HueSaturationValue( hue_shift_limit = (-10, 10),
                         sat_shift_limit = (-10, 10),
                         val_shift_limit = (-10, 10),
@@ -71,7 +71,7 @@ def batch_overlay(
                         scaled_img = small_img.resize(new_size, Image.LANCZOS)
                         
                         # 随机旋转
-                        angle = random.uniform(0, 360)
+                        angle = random.uniform(0, 0)
                         rotated_img = scaled_img.rotate(
                             angle,
                             expand=True,
@@ -133,10 +133,28 @@ def batch_overlay(
 if __name__ == '__main__':
     batch_overlay(
         backgrounds_dir=r'dataset\background',
-        pics_root=r'dataset\96',
+        pics_root=r'dataset\num',
+        output_root=r'dataset\train',
+        min_scale=0.8,
+        max_scale=1.5,
+        min_visible=0.8,
+        num_augments=100
+    )
+    batch_overlay(
+        backgrounds_dir=r'dataset\background',
+        pics_root=r'dataset\num',
+        output_root=r'dataset\val',
+        min_scale=0.8,
+        max_scale=1.5,
+        min_visible=0.8,
+        num_augments=20
+    )
+    batch_overlay(
+        backgrounds_dir=r'dataset\background',
+        pics_root=r'dataset\num',
         output_root=r'dataset\test',
         min_scale=0.8,
-        max_scale=1.2,
-        min_visible=0.5,
+        max_scale=1.5,
+        min_visible=0.8,
         num_augments=10
     )
