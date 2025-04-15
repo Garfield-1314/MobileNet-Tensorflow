@@ -133,7 +133,7 @@ def batch_overlay(
 if __name__ == '__main__':
     batch_overlay(
         backgrounds_dir=r'dataset\background',
-        pics_root=r'dataset\num',
+        pics_root=r'dataset\datanum',
         output_root=r'dataset\train',
         min_scale=0.8,
         max_scale=1.5,
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     )
     batch_overlay(
         backgrounds_dir=r'dataset\background',
-        pics_root=r'dataset\num',
+        pics_root=r'dataset\datanum',
         output_root=r'dataset\val',
         min_scale=0.8,
         max_scale=1.5,
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     )
     batch_overlay(
         backgrounds_dir=r'dataset\background',
-        pics_root=r'dataset\num',
+        pics_root=r'dataset\datanum',
         output_root=r'dataset\test',
         min_scale=0.8,
         max_scale=1.5,
