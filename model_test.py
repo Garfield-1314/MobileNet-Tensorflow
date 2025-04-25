@@ -4,7 +4,7 @@ import numpy as np
 import os
 from tqdm import tqdm
 # 加载量化后的TFLite模型
-model_path = './model/qat_model_20250413_2141.tflite'
+model_path = './model/num/num_model_20250425_0025.tflite'
 interpreter = tf.lite.Interpreter(model_path)
 interpreter.allocate_tensors()
 if 'GPU' in tf.config.list_physical_devices():
@@ -22,7 +22,7 @@ input_dtype = input_details[0]['dtype']
 print(f"模型输入尺寸: {expected_height}x{expected_width}, 数据类型: {input_dtype}")
 
 # 数据集路径
-test_dir = os.path.join('./dataset', 'test')  # 确保test目录存在
+test_dir = os.path.join('../Augmentation/dataset', 'test')  # 确保test目录存在
 
 # 超参数设置
 BATCH_SIZE = 1  # 适当调大batch size提升推理速度
