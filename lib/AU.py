@@ -3,11 +3,11 @@ import tensorflow as tf
 # 🔹 数据增强
 data_augmentation = tf.keras.Sequential([
     # tf.keras.layers.RandomFlip("horizontal"),
-    tf.keras.layers.RandomRotation(factor=(-0.125,0.125),fill_mode="nearest"),
-    tf.keras.layers.RandomZoom(0.25,fill_mode="nearest"),
-    tf.keras.layers.RandomTranslation(height_factor=0.25, width_factor=0.25),
-    tf.keras.layers.RandomBrightness(0.25),
-    tf.keras.layers.RandomContrast(0.3)
+    tf.keras.layers.RandomRotation(factor=(-0.1,0.1),fill_mode="nearest"),
+    tf.keras.layers.RandomZoom(0.10,fill_mode="nearest"),
+    tf.keras.layers.RandomTranslation(height_factor=0.10, width_factor=0.10),
+    tf.keras.layers.RandomBrightness(0.10),
+    tf.keras.layers.RandomContrast(0.10)
 ])
 
 
