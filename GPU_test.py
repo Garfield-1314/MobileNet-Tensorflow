@@ -33,7 +33,7 @@ def check_gpu_availability():
     print("\n所有可见设备:")
     devices = tf.config.list_physical_devices()
     for device in devices:
-        print(f"- {device.name} ({device.device_type})")
+        print(f"- {device.name} ({device.device_type})")      # 打印设备
 
 if __name__ == "__main__":
     check_gpu_availability()
